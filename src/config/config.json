@@ -1,0 +1,14 @@
+{
+  "development": {
+    "use_env_variable": "DBURL",
+    "logging": false
+  },
+  "production": {
+    "use_env_variable": "DBURL",
+    "logging": false
+  },
+  "staging": {
+    "use_env_variable": "DBURL",
+    "logging": false
+  }
+}

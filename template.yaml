@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Storygraf backend API
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  ExpressApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      StageName: dev
+
+  ExpressLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+
+      CodeUri: ./
+      Handler: lambda.handler
+      MemorySize: 512
+      Runtime: nodejs14.x
+      Timeout: 30
+      Events:
+        ProxyApiRoot:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ExpressApi
+            Path: /
+            Method: ANY
+        ProxyApiGreedy:
+          Type: Api
+          Properties:
+            RestApiId: !Ref ExpressApi
+            Path: /{proxy+}
+            Method: ANY
+
