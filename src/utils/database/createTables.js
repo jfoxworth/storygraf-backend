@@ -10,6 +10,7 @@ async function run() {
     await sequelize.models.source.sync({ alter: true });
     await sequelize.models.article.sync({ alter: true });
     await sequelize.models.comment.sync({ alter: true });
+    await sequelize.models.profile.sync({ alter: true });
   } catch (error) {
     console.log(error);
   }

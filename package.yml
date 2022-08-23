@@ -1,30 +1,27 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Storygraf backend API
-
 Globals:
   Function:
     Timeout: 3
   Api:
     Cors:
-      AllowOrigin: "'*'"
-      AllowHeaders: "'Content-Type'"
-      AllowMethods: "'OPTIONS,POST,DELETE,GET,PUT'"
-
+      AllowOrigin: '''*'''
+      AllowHeaders: '''Content-Type'''
+      AllowMethods: '''OPTIONS,POST,DELETE,GET,PUT'''
 Resources:
   ExpressApi:
     Type: AWS::Serverless::Api
     Properties:
       StageName: dev
       Cors:
-        AllowOrigin: "'*'"
-        AllowHeaders: "'Content-Type'"
-        AllowMethods: "'OPTIONS,POST,DELETE,GET,PUT'"
-
+        AllowOrigin: '''*'''
+        AllowHeaders: '''Content-Type'''
+        AllowMethods: '''OPTIONS,POST,DELETE,GET,PUT'''
   ExpressLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ./
+      CodeUri: s3://storygraf-backend/fa2a3c1dca37b5ad66c208dc4a441478
       Handler: lambda.handler
       MemorySize: 512
       Runtime: nodejs14.x
@@ -33,12 +30,14 @@ Resources:
         ProxyApiRoot:
           Type: Api
           Properties:
-            RestApiId: !Ref ExpressApi
+            RestApiId:
+              Ref: ExpressApi
             Path: /
             Method: ANY
         ProxyApiGreedy:
           Type: Api
           Properties:
-            RestApiId: !Ref ExpressApi
+            RestApiId:
+              Ref: ExpressApi
             Path: /{proxy+}
             Method: ANY

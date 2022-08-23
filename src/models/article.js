@@ -19,7 +19,7 @@ const article = (sequelize) => {
     },
     // The id of the tag that owns the article
     tagId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     // The clean, reproducible url of the article

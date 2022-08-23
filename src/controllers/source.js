@@ -12,7 +12,7 @@ const createSource = async (req, res) => {
   }
 };
 
-/* Update a submitted tag  */
+/* Update a source  */
 const updateSource = async (req, res) => {
   const { id } = req.params;
   const source = req.body;

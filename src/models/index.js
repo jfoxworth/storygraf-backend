@@ -1,18 +1,29 @@
 // Sequelize setup example for reference
 const { DATABASE_URL } = process.env;
+const { DATABASE_NAME } = process.env;
+const { DATABASE_USERNAME } = process.env;
+const { DATABASE_PASSWORD } = process.env;
 
 const Sequelize = require("sequelize");
 
 console.log("Connecting...", DATABASE_URL);
 
-const sequelize = new Sequelize(DATABASE_URL, null, null, {
-  dialect: "postgres",
-});
+const sequelize = new Sequelize(
+  DATABASE_NAME,
+  DATABASE_USERNAME,
+  DATABASE_PASSWORD,
+  {
+    host: DATABASE_URL,
+    dialect: "postgres",
+  }
+);
 
 const modelDefiners = [
   require("./tag"),
   require("./article"),
+  require("./source"),
   require("./comment"),
+  require("./profile"),
 ];
 
 // Define all models

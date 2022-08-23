@@ -19,7 +19,7 @@ const tag = (sequelize) => {
     },
     // ID of the parent tag - null means that it is the top level
     parentId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
     // ID of the user that owns/created the tag
@@ -38,6 +38,9 @@ const tag = (sequelize) => {
     const { tag, article } = sequelize.models;
     tag.hasMany(article, {
       foreignKey: "tagId",
+    });
+    tag.hasMany(tag, {
+      foreignKey: "parentId",
     });
   };
 

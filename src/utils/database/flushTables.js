@@ -10,6 +10,7 @@ async function run() {
     await sequelize.models.source.destroy({ cascade: true, truncate: true });
     await sequelize.models.article.destroy({ cascade: true, truncate: true });
     await sequelize.models.comment.destroy({ cascade: true, truncate: true });
+    await sequelize.models.profile.destroy({ cascade: true, truncate: true });
   } catch (error) {
     console.log(error);
   }

@@ -12,7 +12,9 @@ Resources:
   ExpressLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://storygraf-backend/61e03a771e4fdd0c7ff06adcbe7bfa00
+      Environment:
+        Variables: null
+      CodeUri: s3://storygraf-backend/17defd53b7c7364c6ebad91e358097de
       Handler: lambda.handler
       MemorySize: 512
       Runtime: nodejs14.x
@@ -25,6 +27,7 @@ Resources:
               Ref: ExpressApi
             Path: /
             Method: ANY
+            cors: true
         ProxyApiGreedy:
           Type: Api
           Properties:
@@ -32,3 +35,4 @@ Resources:
               Ref: ExpressApi
             Path: /{proxy+}
             Method: ANY
+            cors: true

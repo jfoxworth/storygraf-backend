@@ -14,24 +14,40 @@ The code is stored in github. It is deployed to AWS and the yaml file will store
 
 There are three utility files that can be used to build the tables. The createTables file will create the tables (if needed) and update them if changes are needed. The line for any table that needs to be created/updated must be uncommented.
 
-The dropTables and flushTables files will drop or wipe the contents of any desired table. Simple edit them to comment out the appropriate lines prior to running.
+The dropTables and flushTables files will drop or wipe the contents of any desired table. Simply edit them to comment out the appropriate lines prior to running.
 
-To affect changes on the AWS database(s), you must first ssh into the desired database and then run the desired file - createTables, dropTables, flushTables.
+On the main level, you can run the code to create tables as follows:
 
-`ssh ubuntu@3.134.110.181 -L 8432:storygraf-database.c73n6t6oh3lq.us-east-2.rds.amazonaws.com:5432`
+`node src/utils/database/createTables.js`
 
-You can then run the code to create tables as follows:
+Note that you do not have to tunnel in to anything as there is not EC2 instance holding the database.
 
-`node createTables.js`
+### Initial database creation
+
+As part of the initial setup, the psql command was used to create the database on the AWS server
+
+`psql --host=storygraf-database.c73n6t6oh3lq.us-east-2.rds.amazonaws.com --port=5432 --username=postgres --password`
+
+`psql> create database "storygraf-database";`
 
 ## Deploying the code
 
-Right now, I am currently using AWS cloud formation. I am entering the commands to build and deploy the code as follows:
+Deployment can be accomplished through standard Cloud Formation or through SAM. Since SAM is the newest and greatest method, those should be the default.
 
-```aws cloudformation package --s3-bucket storygraf-backend --template-file template.yaml --output-template-file gen/template-generated.yaml --profile main --region us-east-2
+`aws cloudformation package --s3-bucket storygraf-backend --template-file template.yaml --output-template-file gen/template-generated.yaml --profile main --region us-east-2`
+
+`aws cloudformation deploy --template-file /Users/jfoxworth/sites/storygraf/storygraf-backend/storygraf-backend/gen/template-generated.yaml --stack-name storygraf-backend --profile main --region us-east-2 --capabilities CAPABILITY_IAM`
 
 ```
+sam package \
+  --template-file template.yaml \
+  --output-template-file package.yml \
+  --s3-bucket storygraf-backend --profile main --region us-east-2
+```
 
-```aws cloudformation deploy --template-file /Users/jfoxworth/sites/storygraf/storygraf-backend/storygraf-backend/gen/template-generated.yaml --stack-name storygraf-backend --profile main --region us-east-2 --capabilities CAPABILITY_IAM
-
+```
+sam deploy \
+  --template-file package.yml \
+  --stack-name storygraf-backend \
+  --capabilities CAPABILITY_IAM --profile main --region us-east-2
 ```

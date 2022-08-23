@@ -4,6 +4,7 @@ const { models } = require("../models/index");
 const createTag = async (req, res) => {
   try {
     let tempTag = req.body.tag;
+    res.status(200).json({ tempTag });
     const tag = await models.tag.create(tempTag);
     res.status(201).json(tag);
   } catch (error) {

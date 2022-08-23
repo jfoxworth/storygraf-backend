@@ -19,7 +19,7 @@ const comment = (sequelize) => {
     },
     // The id of the article that owns the comment
     articleId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     // The id of the parent comment

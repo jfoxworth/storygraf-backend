@@ -10,6 +10,7 @@ async function run() {
     await sequelize.models.source.drop();
     await sequelize.models.article.drop();
     await sequelize.models.comment.drop();
+    await sequelize.models.profile.drop();
   } catch (error) {
     console.log(error);
   }
